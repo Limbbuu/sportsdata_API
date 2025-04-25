@@ -9,19 +9,28 @@
 </head>
 <body>
 
-  <h1>Selaa sarjataulukkoja:</h1>
-  <label for="league">Valitse liiga:</label>
-  <select id="league">
-    <option value="39">Valioliiga</option>
-    <option value="140">La Liga</option>
-    <option value="78">Bundesliiga</option>
-  </select>
-  
-  <label for="season">Kausi:</label>
-  <input type="number" id="season" value="2023" min="2021" max="2023" />
-  
-  <button id="standings-btn">Haku</button>
-  <table id="standings-table"></table>
+    <header class="header">
+        <h1>Urheiludataa</h1>
+    </header>
+
+  <div class="standings">
+    <h2>Selaa sarjataulukkoja:</h2>
+        <div id="standings-nav">
+            <label for="league">Valitse liiga:</label>
+            <select id="league">
+                <option value="39">Valioliiga</option>
+                <option value="140">La Liga</option>
+                <option value="78">Bundesliiga</option>
+            </select>
+            
+            <label for="season">Kausi:</label>
+            <input type="number" id="season" value="2023" min="2021" max="2023" />
+            
+            <button id="standings-btn">Haku</button>
+            </div>
+        <table id="standings-table"></table>
+    </div>
+    
   
   <h1>Data</h1>
   <button id="fetch-teams">Hae joukkueet</button>
