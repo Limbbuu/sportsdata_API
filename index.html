@@ -8,10 +8,8 @@
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <h1>Data</h1>
-  <button id="fetch-teams">Hae joukkueet</button>
-  <div id="teams-list"></div>
 
+  <h1>Selaa sarjataulukkoja:</h1>
   <label for="league">Valitse liiga:</label>
   <select id="league">
     <option value="39">Valioliiga</option>
@@ -20,12 +18,14 @@
   </select>
   
   <label for="season">Kausi:</label>
-  <input type="number" id="season" value="2023" min="2000" max="2026" />
+  <input type="number" id="season" value="2023" min="2021" max="2023" />
   
-  <button id="standings-btn">Hae sarjataulukkoa</button>
+  <button id="standings-btn">Haku</button>
   <table id="standings-table"></table>
   
-
+  <h1>Data</h1>
+  <button id="fetch-teams">Hae joukkueet</button>
+  <div id="teams-list"></div>
 
 
   <script type="module" src="js/getData.js" defer></script>
