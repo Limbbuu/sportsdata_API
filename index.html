@@ -12,6 +12,23 @@
   <button id="fetch-teams">Hae joukkueet</button>
   <div id="teams-list"></div>
 
+  <label for="league">Valitse liiga:</label>
+  <select id="league">
+    <option value="39">Valioliiga</option>
+    <option value="140">La Liga</option>
+    <option value="78">Bundesliiga</option>
+  </select>
+  
+  <label for="season">Kausi:</label>
+  <input type="number" id="season" value="2023" min="2000" max="2026" />
+  
+  <button id="standings-btn">Hae sarjataulukkoa</button>
+  <table id="standings-table"></table>
+  
+
+
+
   <script type="module" src="js/getData.js" defer></script>
+  <script type="module" src="js/getStandings.js" defer></script>
 </body>
 </html>
