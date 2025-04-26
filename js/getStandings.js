@@ -54,3 +54,6 @@ function displayStandings(teams) {
 }
 
 document.getElementById('standings-btn').addEventListener('click', fetchStandings);
+
+
+window.addEventListener('DOMContentLoaded', fetchStandings);
