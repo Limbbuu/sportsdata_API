@@ -1,4 +1,6 @@
 import { API_KEY } from './config.js';
+import { fetchTopScorers } from './getTopScorers.js';
+
 
 async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
@@ -19,6 +21,10 @@ async function fetchStandings() {
     const data = await response.json();
     const standings = data.response[0].league.standings[0];
     displayStandings(standings);
+
+    //sarjataulu-haun jälkeen maalintekijät haetaan
+    fetchTopScorers(leagueId, season);
+
   } catch (error) {
     console.error('Virhe haettaessa sarjataulukkoa:', error);
   }
