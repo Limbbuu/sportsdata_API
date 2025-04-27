@@ -68,17 +68,21 @@ body {
     border-collapse: collapse;
     margin-top: 10px;
   }
+
+  #topscorers-table {
+    margin-top: 110px;
+  }
   
-  #standings-table th, #standings-table td
+  #standings-table th, #standings-table td,
+  #topscorers-table th, #topscorers-table td
    {
     border: 1px solid #ddd;
     padding: 6px;
-    text-align: center;
+    text-align: left;
   }
 
   #topscorers-table th, #topscorers-table td {
-    border: 1px solid #ddd;
-    text-align: center;
+    padding-left: 20px;
   }
   
   /*pariliset rivit tyyli*/
