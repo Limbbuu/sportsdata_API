@@ -22,19 +22,21 @@ body {
   .standings-section, .topscorers-section {
     background: #f9f9f9;
     padding: 20px;
-    flex: 1;
+    flex:1;
     min-width: 300px;
   }
   
   #search-nav {
+    width: 100%; 
+    max-width: 100%; 
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 20px;
     align-items: center;
-    padding: 1rem;
+    justify-content: center;
+    padding: 10px;
     background-color: #e9e9e9;
-    border-radius: 10px;
-    margin-bottom: 20px;
   }
   
   #search-nav label {
@@ -67,10 +69,6 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-  }
-
-  #topscorers-table {
-    margin-top: 110px;
   }
   
   #standings-table th, #standings-table td,
