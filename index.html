@@ -3,47 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Sports Data</title>
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-    <header class="header">
-        <h1>Urheiludataa</h1>
-    </header>
+<header class="header">
+  <h1>Urheiludataa</h1>
+</header>
 
-  <div class="standings">
+<div class="content-wrap">
+  <div class="standings-section">
     <h2>Selaa sarjataulukkoja:</h2>
-        <div id="standings-nav">
-        <label for="league">Valitse liiga:</label>
-        <select id="league">
-            <option value="39">Valioliiga</option>
-            <option value="140">La Liga</option>
-            <option value="78">Bundesliiga</option>
-        </select>
-        
-        <label for="season">Kausi:</label>
-        <input type="number" id="season" value="2023" min="2021" max="2023" />
-        
-        <button id="standings-btn">Haku</button>
-        </div>
-        <table id="standings-table"></table>
+    <div id="search-nav">
+      <label for="league">Sarja:</label>
+      <select id="league">
+          <option value="39">Valioliiga</option>
+          <option value="140">La Liga</option>
+          <option value="78">Bundesliiga</option>
+      </select>
+
+      <label for="season">Kausi:</label>
+      <input type="number" id="season" value="2023" min="2021" max="2023" />
+
+      <button id="standings-btn">Haku</button>
     </div>
 
-    <div class="topscorers">
-      <h2>Maalintekijät:</h2>
-      <table id="topscorers-table"></table>
-    </div>
-    
-  
-  <h1>Data</h1>
-  <button id="fetch-teams">Hae joukkueet</button>
-  <div id="teams-list"></div>
+    <table id="standings-table"></table>
+  </div>
 
+  <div class="topscorers-section">
+    <h2>Maalintekijät:</h2>
+    <table id="topscorers-table"></table>
+  </div>
+</div>
 
-  <script type="module" src="js/getData.js" defer></script>
-  <script type="module" src="js/getStandings.js" defer></script>
-  <script type="module" src="js/getTopScorers.js" defer></script>
+<script type="module" src="js/getStandings.js" defer></script>
+<script type="module" src="js/getTopScorers.js" defer></script>
+
 </body>
 </html>
