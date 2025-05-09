@@ -26,6 +26,7 @@ function displayTopScorers(players) {
   scorersElement.innerHTML = `
     <tr>
       <th>Pelaaja</th>
+      <th>Joukkue</th>
       <th>Tehdyt Maalit</th>
     </tr>   
     `;
@@ -38,6 +39,7 @@ function displayTopScorers(players) {
     const row = document.createElement('tr');
     row.innerHTML = `
     <td><img src="${player.photo}" width="30" style="vertical-align:middle; margin-right: 8px;">${player.name}</td>
+    <td>${stats.team.name} </td>
     <td>${stats.goals.total} </td>
     `;
     scorersElement.appendChild(row);
