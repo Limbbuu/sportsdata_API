@@ -1,11 +1,9 @@
 import { API_KEY } from './config.js';
 import { fetchTopScorers } from './getTopScorers.js';
 
-
 async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
   const season = document.getElementById('season').value;
-  const statsType = document.getElementById('stats-type').value;
 
   try {
     const response = await fetch(`https://v3.football.api-sports.io/standings?league=${leagueId}&season=${season}`, {
@@ -23,8 +21,8 @@ async function fetchStandings() {
     const standings = data.response[0].league.standings[0];
     displayStandings(standings);
 
-    //sarjataulu-haun jälkeen maalintekijät haetaan
-    fetchTopScorers(leagueId, season);
+    // Hae vain maalintekijätilastot
+    await fetchTopScorers(leagueId, season);
 
   } catch (error) {
     console.error('Virhe haettaessa sarjataulukkoa:', error);
@@ -63,11 +61,9 @@ function displayStandings(teams) {
 
 document.getElementById('standings-btn').addEventListener('click', fetchStandings);
 
-
-// Oletusnäkymä sivun latautuessa: Valioliiga, kausi 2023, maalintekijät
+// Oletusnäkymä sivun latautuessa: Valioliiga, kausi 2023
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('league').value = '39'; // Valioliiga
   document.getElementById('season').value = '2023';
-  document.getElementById('stats-type').value = 'scorers'; // Maalintekijät
   fetchStandings();
 });
