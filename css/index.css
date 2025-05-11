@@ -70,7 +70,16 @@ body {
     border-collapse: collapse;
     margin-top: 10px;
   }
-  
+
+  .sort-arrow {
+  margin-left: 5px;
+  font-size: 20px;
+  color: #333;
+}
+  th {
+    cursor: pointer;
+  }
+    
   #standings-table th, #standings-table td,
   #topscorers-table th, #topscorers-table td
    {
