@@ -39,6 +39,8 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
       <th data-sort="win">Voitot <span class="sort-arrow"></span></th>
       <th data-sort="draw">Tasapelit <span class="sort-arrow"></span></th>
       <th data-sort="lose">Tappiot <span class="sort-arrow"></span></th>
+      <th data-sort="goalsFor">Tehdyt Maalit <span class="sort-arrow"></span></th>
+      <th data-sort="goalsAgainst">Päästetyt Maalit <span class="sort-arrow"></span></th>
       <th data-sort="points">Pisteet <span class="sort-arrow"></span></th>
     </tr>
   `;
@@ -52,7 +54,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     const thElements = tableElement.getElementsByTagName('th');
     for (let th of thElements) {
       const arrow = th.querySelector('.sort-arrow');
-      if (arrow) { // Varmista, että arrow on olemassa
+      if (arrow) {
         if (th.getAttribute('data-sort') === currentSortKey) {
           arrow.textContent = currentSortDirection ? '↑' : '↓';
         } else {
@@ -62,10 +64,11 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     }
   };
 
-  // Lajittele tiimit valitun sarakkeen mukaan
+  // Lajitellaan data valitun sarakkeen mukaan
   const sortedTeams = [...teams].sort((a, b) => {
     let valueA, valueB;
 
+    //switch / case stamenttejä
     switch (currentSortKey) {
       case 'team':
         valueA = a.team.name.toLowerCase();
@@ -82,6 +85,14 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
       case 'lose':
         valueA = a.all.lose;
         valueB = b.all.lose;
+        return currentSortDirection ? valueA - valueB : valueB - valueA;
+      case 'goalsFor':
+        valueA = a.all.goals.for;
+        valueB = b.all.goals.for;
+        return currentSortDirection ? valueA - valueB : valueB - valueA;
+      case 'goalsAgainst':
+        valueA = a.all.goals.against;
+        valueB = b.all.goals.against;
         return currentSortDirection ? valueA - valueB : valueB - valueA;
       case 'points':
         valueA = a.points;
@@ -101,6 +112,8 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
       <td>${team.all.win}</td>
       <td>${team.all.draw}</td>
       <td>${team.all.lose}</td>
+      <td>${team.all.goals.for}</td>
+      <td>${team.all.goals.against}</td>
       <td>${team.points}</td>
     `;
     tableElement.appendChild(row);
