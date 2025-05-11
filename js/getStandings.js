@@ -1,6 +1,17 @@
 import { API_KEY } from './config.js';
 import { fetchTopScorers } from './getTopScorers.js';
 
+const leagues = [
+  { id: 39, name: 'English Premier League 🇬🇧' },
+  { id: 140, name: 'Spanish La Liga 🇪🇸' },
+  { id: 135, name: 'Italian Serie A 🇮🇹' },
+  { id: 78, name: 'German Bundesliga 🇩🇪' },
+  { id: 61, name: 'French Ligue 1 🇫🇷' },
+  { id: 203, name: 'Turkish Süper Lig 🇹🇷' },
+  { id: 128, name: 'Argentine Primera División 🇦🇷' },
+  { id: 262, name: 'Mexican Liga MX 🇲🇽' },
+];
+
 async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
   const season = document.getElementById('season').value;
@@ -26,7 +37,7 @@ async function fetchStandings() {
 
   } catch (error) {
     console.error('Virhe haettaessa sarjataulukkoa:', error);
-    document.getElementById('standings-table').innerHTML = '<tr><td colspan="7">Virhe ladattaessa sarjataulukkoa.</td></tr>';
+    document.getElementById('standings-table').innerHTML = '<tr><td colspan="9">Virhe ladattaessa sarjataulukkoa.</td></tr>';
   }
 }
 
@@ -45,11 +56,9 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     </tr>
   `;
 
-  // Seurataan lajittelusuuntaa ja -avainta
   let currentSortKey = sortKey;
-  let currentSortDirection = sortDirection; // false = laskeva, true = nouseva
+  let currentSortDirection = sortDirection;
 
-  // Päivitä nuoli aktiiviselle sarakkeelle
   const updateSortArrow = () => {
     const thElements = tableElement.getElementsByTagName('th');
     for (let th of thElements) {
@@ -64,11 +73,9 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     }
   };
 
-  // Lajitellaan data valitun sarakkeen mukaan
   const sortedTeams = [...teams].sort((a, b) => {
     let valueA, valueB;
 
-    //switch / case stamenttejä
     switch (currentSortKey) {
       case 'team':
         valueA = a.team.name.toLowerCase();
@@ -103,7 +110,6 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     }
   });
 
-  // Näytä lajitellut rivit
   sortedTeams.forEach(team => {
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -119,24 +125,18 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     tableElement.appendChild(row);
   });
 
-  // Päivitä nuoli vasta rivien lisäämisen jälkeen
   updateSortArrow();
 
-  // Lisää klikkaustapahtuma jokaiselle otsikolle
   const thElements = tableElement.getElementsByTagName('th');
   for (let th of thElements) {
     th.addEventListener('click', () => {
       const newSortKey = th.getAttribute('data-sort');
-      // Jos samaa saraketta klikataan uudelleen, vaihda suuntaa
       if (newSortKey === currentSortKey) {
         currentSortDirection = !currentSortDirection;
       } else {
-        // Uusi sarake: Aloita laskevasta järjestyksestä (DESCENDING ORDER)
         currentSortKey = newSortKey;
-        currentSortDirection = false; // Laskeva oletusarvo
+        currentSortDirection = false;
       }
-
-      // Päivitä taulukko
       displayStandings(teams, currentSortKey, currentSortDirection);
     });
   }
@@ -144,9 +144,15 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
 
 document.getElementById('standings-btn').addEventListener('click', fetchStandings);
 
-// Oletusnäkymä sivun latautuessa: Valioliiga, kausi 2023, lajiteltu pisteiden mukaan laskevasti
 window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('league').value = '39'; // Valioliiga
-  document.getElementById('season').value = '2023';
+  const leagueSelect = document.getElementById('league');
+  leagues.forEach(league => {
+    const option = document.createElement('option');
+    option.value = league.id;
+    option.textContent = league.name;
+    leagueSelect.appendChild(option);
+  });
+  document.getElementById('league').value = '39'; // valioliiga oletuksena
+  document.getElementById('season').value = '2023'; //kausi oletus
   fetchStandings();
 });
