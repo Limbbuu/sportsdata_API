@@ -13,14 +13,19 @@ body {
     color: white;
   }
   
+  h2 {
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    text-align: center;
+  }
   .content-wrap {
+    background: linear-gradient(90deg, #58ca80, #754545);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
   
   .standings-section, .topscorers-section {
-    background: #f9f9f9;
     padding: 20px;
     flex:1;
     min-width: 300px;
@@ -97,6 +102,14 @@ body {
   #topscorers-table tr:nth-child(even) {
     background-color: #f2f2f2;
   }
+
+   /*parittomat rivit tyyli*/
+  #standings-table tr:nth-child(odd),
+  #topscorers-table tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+
+
   
   #standings-table tr:hover,
   #topscorers-table tr:hover {
