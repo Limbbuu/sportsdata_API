@@ -2,14 +2,14 @@ import { API_KEY } from './config.js';
 import { fetchTopScorers } from './getTopScorers.js';
 
 const leagues = [
-  { id: 39, name: 'English Premier League 🇬🇧' },
-  { id: 140, name: 'Spanish La Liga 🇪🇸' },
-  { id: 135, name: 'Italian Serie A 🇮🇹' },
-  { id: 78, name: 'German Bundesliga 🇩🇪' },
-  { id: 61, name: 'French Ligue 1 🇫🇷' },
-  { id: 203, name: 'Turkish Süper Lig 🇹🇷' },
-  { id: 128, name: 'Argentine Primera División 🇦🇷' },
-  { id: 262, name: 'Mexican Liga MX 🇲🇽' },
+  { id: 39, name: 'English Premier League 🇬🇧', continent: 'Europe' },
+  { id: 140, name: 'Spanish La Liga 🇪🇸', continent: 'Europe' },
+  { id: 135, name: 'Italian Serie A 🇮🇹', continent: 'Europe' },
+  { id: 78, name: 'German Bundesliga 🇩🇪', continent: 'Europe' },
+  { id: 61, name: 'French Ligue 1 🇫🇷', continent: 'Europe' },
+  { id: 203, name: 'Turkish Süper Lig 🇹🇷', continent: 'Europe' },
+  { id: 128, name: 'Argentine Primera División 🇦🇷', continent: 'South-America' },
+  { id: 262, name: 'Mexican Liga MX 🇲🇽', continent: 'North-America' },
 ];
 
 async function fetchStandings() {
@@ -32,7 +32,6 @@ async function fetchStandings() {
     const standings = data.response[0].league.standings[0];
     displayStandings(standings);
 
-    // Hae vain maalintekijätilastot
     await fetchTopScorers(leagueId, season);
 
   } catch (error) {
@@ -102,10 +101,10 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
         valueA = a.all.goals.against;
         valueB = b.all.goals.against;
         return currentSortDirection ? valueA - valueB : valueB - valueA;
-        case 'goalDiff':
-      valueA = a.all.goals.for - a.all.goals.against;
-      valueB = b.all.goals.for - b.all.goals.against;
-      return currentSortDirection ? valueA - valueB : valueB - valueA;
+      case 'goalDiff':
+        valueA = a.all.goals.for - a.all.goals.against;
+        valueB = b.all.goals.for - b.all.goals.against;
+        return currentSortDirection ? valueA - valueB : valueB - valueA;
       case 'points':
         valueA = a.points;
         valueB = b.points;
@@ -116,7 +115,6 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
   });
 
   sortedTeams.forEach(team => {
-    //maalierolle laskutoimitus
     const goalDifference = team.all.goals.for - team.all.goals.against;
     const goalDifferenceDisplay = goalDifference > 0 ? `+${goalDifference}` : goalDifference;
 
@@ -156,13 +154,26 @@ document.getElementById('standings-btn').addEventListener('click', fetchStanding
 
 window.addEventListener('DOMContentLoaded', () => {
   const leagueSelect = document.getElementById('league');
-  leagues.forEach(league => {
-    const option = document.createElement('option');
-    option.value = league.id;
-    option.textContent = league.name;
-    leagueSelect.appendChild(option);
+  
+  // Ryhmittele liigat mantereiden mukaan
+  const continents = [...new Set(leagues.map(league => league.continent))];
+  
+  continents.forEach(continent => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = continent;
+    
+    const continentLeagues = leagues.filter(league => league.continent === continent);
+    continentLeagues.forEach(league => {
+      const option = document.createElement('option');
+      option.value = league.id;
+      option.textContent = league.name;
+      optgroup.appendChild(option);
+    });
+    
+    leagueSelect.appendChild(optgroup);
   });
-  document.getElementById('league').value = '39'; // valioliiga oletuksena
-  document.getElementById('season').value = '2023'; //kausi oletus
+
+  document.getElementById('league').value = '39'; // Valioliiga oletuksena
+  document.getElementById('season').value = '2023';
   fetchStandings();
 });
