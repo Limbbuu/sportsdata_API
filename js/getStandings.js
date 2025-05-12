@@ -18,6 +18,17 @@ async function fetchStandings() {
   const tableElement = document.getElementById('standings-table');
   tableElement.innerHTML = '<tr><td colspan="9">Loading...</td></tr>'; //latausindikaattori dataa hakiessa
 
+    //tallennetaan hakuja lokalstorageen, jotta vähennetään API-kutsujan määrää
+  const standingsCacheKey = `standings_${leagueId}_${season}`;
+  const cachedStandings = localStorage.getItem(standingsCacheKey);
+
+  if (cachedStandings) {
+    const standings = JSON.parse(cachedStandings);
+    displayStandings(standings);
+    await fetchTopScorers(leagueId,season);
+    return;
+  }
+
   try {
     const response = await fetch(`https://v3.football.api-sports.io/standings?league=${leagueId}&season=${season}`, {
       method: 'GET',
@@ -29,7 +40,7 @@ async function fetchStandings() {
     if (!response.ok) {
       if (response.status === 429) {
         //API-rajan ylityksen ilmoitus
-        tableElement.innerHTML = '<tr><td colspan="9">API-raja ylittyi, yritä uudelleen myöhemmin.</td></tr>';
+        tableElement.innerHTML = '<tr><td colspan="9">API-requests used. Try again later.</td></tr>';
         return;
       }
       throw new Error(`Virhe haussa: ${response.status}`);
@@ -37,6 +48,7 @@ async function fetchStandings() {
 
     const data = await response.json();
     const standings = data.response[0].league.standings[0];
+    localStorage.setItem(standingsCacheKey, JSON.stringify(standings));
     displayStandings(standings);
 
     await fetchTopScorers(leagueId, season);
@@ -52,14 +64,14 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
   tableElement.innerHTML = `
     <tr>
       <th data-sort="rank"></th>
-      <th data-sort="team">Joukkue <span class="sort-arrow"></span></th>
-      <th data-sort="win">Voitot <span class="sort-arrow"></span></th>
-      <th data-sort="draw">Tasapelit <span class="sort-arrow"></span></th>
-      <th data-sort="lose">Tappiot <span class="sort-arrow"></span></th>
-      <th data-sort="goalsFor">Tehdyt Maalit <span class="sort-arrow"></span></th>
-      <th data-sort="goalsAgainst">Päästetyt Maalit <span class="sort-arrow"></span></th>
-      <th data-sort="goalDiff">Maaliero <span class="sort-arrow"></span></th>
-      <th data-sort="points">Pisteet <span class="sort-arrow"></span></th>
+      <th data-sort="team">Team <span class="sort-arrow"></span></th>
+      <th data-sort="win">Win <span class="sort-arrow"></span></th>
+      <th data-sort="draw">Draw <span class="sort-arrow"></span></th>
+      <th data-sort="lose">Lost <span class="sort-arrow"></span></th>
+      <th data-sort="goalsFor">Goals For <span class="sort-arrow"></span></th>
+      <th data-sort="goalsAgainst">Goals Against <span class="sort-arrow"></span></th>
+      <th data-sort="goalDiff">+/- <span class="sort-arrow"></span></th>
+      <th data-sort="points">Pts <span class="sort-arrow"></span></th>
     </tr>
   `;
 
