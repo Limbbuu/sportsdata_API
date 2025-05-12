@@ -52,6 +52,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
       <th data-sort="lose">Tappiot <span class="sort-arrow"></span></th>
       <th data-sort="goalsFor">Tehdyt Maalit <span class="sort-arrow"></span></th>
       <th data-sort="goalsAgainst">Päästetyt Maalit <span class="sort-arrow"></span></th>
+      <th data-sort="goalDiff">Maaliero <span class="sort-arrow"></span></th>
       <th data-sort="points">Pisteet <span class="sort-arrow"></span></th>
     </tr>
   `;
@@ -101,6 +102,10 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
         valueA = a.all.goals.against;
         valueB = b.all.goals.against;
         return currentSortDirection ? valueA - valueB : valueB - valueA;
+        case 'goalDiff':
+      valueA = a.all.goals.for - a.all.goals.against;
+      valueB = b.all.goals.for - b.all.goals.against;
+      return currentSortDirection ? valueA - valueB : valueB - valueA;
       case 'points':
         valueA = a.points;
         valueB = b.points;
@@ -111,6 +116,10 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
   });
 
   sortedTeams.forEach(team => {
+    //maalierolle laskutoimitus
+    const goalDifference = team.all.goals.for - team.all.goals.against;
+    const goalDifferenceDisplay = goalDifference > 0 ? `+${goalDifference}` : goalDifference;
+
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${team.rank}</td>
@@ -120,6 +129,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
       <td>${team.all.lose}</td>
       <td>${team.all.goals.for}</td>
       <td>${team.all.goals.against}</td>
+      <td>${goalDifferenceDisplay}</td>
       <td>${team.points}</td>
     `;
     tableElement.appendChild(row);
