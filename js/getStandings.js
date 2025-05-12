@@ -67,14 +67,14 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     <tr>
       <th data-sort="rank"></th>
       <th data-sort="team">Team <span class="sort-arrow"></span></th>
-      <th data-sort="played">Games <br> Played <span class="sort-arrow"></span></th>
-      <th data-sort="win">Win <span class="sort-arrow"></span></th>
-      <th data-sort="draw">Draw <span class="sort-arrow"></span></th>
-      <th data-sort="lose">Lost <span class="sort-arrow"></span></th>
-      <th data-sort="goalsFor">Goals <br>For <span class="sort-arrow"></span></th>
-      <th data-sort="goalsAgainst">Goals<br> Against <span class="sort-arrow"></span></th>
-      <th data-sort="goalDiff">+/- <span class="sort-arrow"></span></th>
-      <th data-sort="points">Pts <span class="sort-arrow"></span></th>
+      <th data-sort="played">GP<span class="sort-arrow"></span></th>
+      <th data-sort="win">W<span class="sort-arrow"></span></th>
+      <th data-sort="draw">D<span class="sort-arrow"></span></th>
+      <th data-sort="lose">L<span class="sort-arrow"></span></th>
+      <th data-sort="goalsFor">GF<span class="sort-arrow"></span></th>
+      <th data-sort="goalsAgainst">GA<span class="sort-arrow"></span></th>
+      <th data-sort="goalDiff">+/-<span class="sort-arrow"></span></th>
+      <th data-sort="points">Pts<span class="sort-arrow"></span></th>
     </tr>
   `;
 
