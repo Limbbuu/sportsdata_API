@@ -15,7 +15,7 @@ body {
   }
   
   h2 {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-size: 30px;
     text-align: center;
   }
@@ -128,6 +128,11 @@ body {
     text-align: center;
   }
   
+  #standings-info {
+    margin-top: 10px;
+    color: rgb(246, 246, 246);
+    font-style: italic;
+  }
   footer {
     background: linear-gradient(#3ea151, #333);
     padding: 10px;
