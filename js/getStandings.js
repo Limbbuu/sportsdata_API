@@ -15,6 +15,8 @@ const leagues = [
 async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
   const season = document.getElementById('season').value;
+  const tableElement = document.getElementById('standings-table');
+  tableElement.innerHTML = '<tr><td colspan="9">Loading...</td></tr>'; //latausindikaattori dataa hakiessa
 
   try {
     const response = await fetch(`https://v3.football.api-sports.io/standings?league=${leagueId}&season=${season}`, {
@@ -25,6 +27,11 @@ async function fetchStandings() {
     });
 
     if (!response.ok) {
+      if (response.status === 429) {
+        //API-rajan ylityksen ilmoitus
+        tableElement.innerHTML = '<tr><td colspan="9">API-raja ylittyi, yritä uudelleen myöhemmin.</td></tr>';
+        return;
+      }
       throw new Error(`Virhe haussa: ${response.status}`);
     }
 
@@ -36,7 +43,7 @@ async function fetchStandings() {
 
   } catch (error) {
     console.error('Virhe haettaessa sarjataulukkoa:', error);
-    document.getElementById('standings-table').innerHTML = '<tr><td colspan="9">Virhe ladattaessa sarjataulukkoa.</td></tr>';
+    tableElement.innerHTML = '<tr><td colspan="9">Error while loading standings</td></tr>';
   }
 }
 
@@ -155,7 +162,6 @@ document.getElementById('standings-btn').addEventListener('click', fetchStanding
 window.addEventListener('DOMContentLoaded', () => {
   const leagueSelect = document.getElementById('league');
   
-  // Ryhmittele liigat mantereiden mukaan
   const continents = [...new Set(leagues.map(league => league.continent))];
   
   continents.forEach(continent => {
@@ -173,7 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
     leagueSelect.appendChild(optgroup);
   });
 
-  document.getElementById('league').value = '39'; // Valioliiga oletuksena
+  document.getElementById('league').value = '39';
   document.getElementById('season').value = '2023';
   fetchStandings();
 });
