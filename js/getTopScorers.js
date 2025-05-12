@@ -54,7 +54,9 @@ function displayTopScorers(players) {
   scorersTable.innerHTML = `
     <tr>
       <th>Player</th>
+      <th>Age</th>
       <th>Team</th>
+      <th>Matches</th>
       <th>Goals</th>
       <th>Assists</th>
     </tr>   
@@ -72,7 +74,9 @@ function displayTopScorers(players) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td><img src="${player.photo}" width="30" style="vertical-align:middle; margin-right: 8px;">${player.name}</td>
+      <td>${player.age || 'Not known.'}</td>
       <td>${stats.team.name || 'Not known.'}</td>
+      <td>${stats.games.appearences || '0'}</td>
       <td>${stats.goals.total || 0}</td>
       <td>${stats.goals.assists || 0}</td>
     `;
