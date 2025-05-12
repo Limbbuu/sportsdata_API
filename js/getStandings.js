@@ -10,6 +10,8 @@ const leagues = [
   { id: 203, name: 'Turkish Süper Lig 🇹🇷', continent: 'Europe' },
   { id: 128, name: 'Argentine Primera División 🇦🇷', continent: 'South-America' },
   { id: 262, name: 'Mexican Liga MX 🇲🇽', continent: 'North-America' },
+  { id: 253, name: 'Major League Soccer 🇺🇸', continent: 'North-America' },
+  { id: 386, name: 'Premiere Division 🇨🇮', continent: 'Africa' },
 ];
 
 async function fetchStandings() {
@@ -65,6 +67,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     <tr>
       <th data-sort="rank"></th>
       <th data-sort="team">Team <span class="sort-arrow"></span></th>
+      <th data-sort="played">Games <br> Played <span class="sort-arrow"></span></th>
       <th data-sort="win">Win <span class="sort-arrow"></span></th>
       <th data-sort="draw">Draw <span class="sort-arrow"></span></th>
       <th data-sort="lose">Lost <span class="sort-arrow"></span></th>
@@ -100,6 +103,10 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
         valueA = a.team.name.toLowerCase();
         valueB = b.team.name.toLowerCase();
         return currentSortDirection ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+      case 'playedGames': //lasketaa otteluiden määrä yhteenlaskemalla W/D/L
+      valueA = a.all.win + a.all.draw + a.all.lose;
+        valueB = b.all.win + b.all.draw + b.all.lose;
+        return currentSortDirection ? valueA - valueB : valueB - valueA;
       case 'win':
         valueA = a.all.win;
         valueB = b.all.win;
@@ -134,6 +141,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
   });
 
   sortedTeams.forEach(team => {
+    const playedMatches = team.all.win + team.all.draw + team.all.lose;
     const goalDifference = team.all.goals.for - team.all.goals.against;
     const goalDifferenceDisplay = goalDifference > 0 ? `+${goalDifference}` : goalDifference;
 
@@ -141,6 +149,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
     row.innerHTML = `
       <td>${team.rank}</td>
       <td><img src="${team.team.logo}" width="20" style="vertical-align: middle; margin-right: 6px;">${team.team.name}</td>
+      <td>${playedMatches}</td>
       <td>${team.all.win}</td>
       <td>${team.all.draw}</td>
       <td>${team.all.lose}</td>
