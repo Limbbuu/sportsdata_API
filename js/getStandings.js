@@ -45,7 +45,7 @@ async function fetchStandings() {
         tableElement.innerHTML = '<tr><td colspan="9">API-requests used. Try again later.</td></tr>';
         return;
       }
-      throw new Error(`Virhe haussa: ${response.status}`);
+      throw new Error(`Error on response: ${response.status}`);
     }
 
     const data = await response.json();
@@ -56,7 +56,7 @@ async function fetchStandings() {
     await fetchTopScorers(leagueId, season);
 
   } catch (error) {
-    console.error('Virhe haettaessa sarjataulukkoa:', error);
+    console.error('Error while fetching standings:', error);
     tableElement.innerHTML = '<tr><td colspan="9">Error while loading standings</td></tr>';
   }
 }
@@ -201,6 +201,5 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('league').value = '39';
-  document.getElementById('season').value = '2023';
   fetchStandings();
 });
