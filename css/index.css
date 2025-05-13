@@ -1,151 +1,395 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .header h1 {
-    background: linear-gradient(90deg, #58ca80, #754545);
-    padding: 20px;
-    font-size: 45px;
-    margin: 0;
-    text-align: center;
-    color: white;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  h2 {
-    color: rgb(255, 255, 255);
-    font-size: 30px;
-    text-align: center;
-  }
-  .content-wrap {
-    background: linear-gradient(90deg, #58ca80, #754545);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .standings-section, .topscorers-section {
-    padding: 20px;
-    flex:1;
-    min-width: 300px;
-  }
-  
-  #search-nav {
-    width: 100%; 
-    max-width: 100%; 
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    background-color: #e9e9e9;
-  }
-  
-  #search-nav label {
-    font-weight: bold;
-  }
-  
-  #search-nav select,
-  #search-nav input,
-  #search-nav button {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  #search-nav button {
-    background-color: #49a53b;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  #search-nav button:hover {
-    background-color: #29520dc3;
-  }
-  
-  /*taulukoiden tyyli*/
-  #standings-table, #topscorers-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-  .sort-arrow {
+/* Otsikko */
+.header h1 {
+  background: linear-gradient(90deg, #58ca80, #754545);
+  padding: 20px;
+  font-size: 45px;
+  margin: 0;
+  text-align: center;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h2 {
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+  text-align: center;
+}
+
+.content-wrap {
+  background: linear-gradient(90deg, #58ca80, #754545);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+}
+
+.standings-section, .topscorers-section {
+  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+  box-sizing: border-box;
+}
+
+/* Hakupalkki */
+#search-nav {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #e9e9e9;
+  box-sizing: border-box;
+}
+
+#search-nav label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+#search-nav select,
+#search-nav input,
+#search-nav button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 200px;
+}
+
+#search-nav button {
+  background-color: #49a53b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#search-nav button:hover {
+  background-color: #29520dc3;
+}
+
+/* Taulukoiden tyyli */
+#standings-table, #topscorers-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  table-layout: auto;
+}
+
+.sort-arrow {
   margin-left: 5px;
   font-size: 20px;
   color: #333;
 }
-  th {
-    cursor: pointer;
+
+th {
+  cursor: pointer;
+}
+
+#standings-table th, #standings-table td,
+#topscorers-table th, #topscorers-table td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: left;
+  font-size: 1rem;
+  word-wrap: break-word;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#topscorers-table th, #topscorers-table td {
+  padding-left: 20px;
+}
+
+/* Joukkue-sarake laajennettu */
+#standings-table th:nth-child(2) {
+  min-width: 100px; /* Vähimmäisleveys joukkuesarakkeelle */
+  max-width: 100px; /* Maksimileveys, jotta ei vie liikaa tilaa */
+  white-space: nowrap; /* Estää rivinvaihdon */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Lyhentää pitkät nimet ...-merkillä */
+  font-size: clamp(0.8rem, 2vw, 1rem); /* Skaalaa fonttikokoa ruudun leveyden mukaan */
+}
+
+/*pörssin sarakkeiden muotoilua */
+#topscorers-table td:nth-child(1) {
+  min-width: 20px;
+  max-width: 50px;
+}
+
+/* Parilliset rivit */
+#standings-table tr:nth-child(even),
+#topscorers-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Parittomat rivit */
+#standings-table tr:nth-child(odd),
+#topscorers-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#standings-table tr:hover,
+#topscorers-table tr:hover {
+  background-color: #ddd;
+}
+
+#standings-table th, #topscorers-table th {
+  background-color: #bdb004;
+  color: white;
+  font-size: 1rem;
+  padding: 8px;
+}
+
+/* Joukkueet-osio */
+.teams-section {
+  margin: 50px;
+  text-align: center;
+}
+
+#standings-info {
+  margin-top: 10px;
+  color: rgb(246, 246, 246);
+  font-style: italic;
+}
+
+footer {
+  background: linear-gradient(#3ea151, #333);
+  padding: 10px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  font-style: italic;
+}
+
+/* Responsiivisuus */
+
+/* Suuret näytöt (yli 1200px) */
+@media (min-width: 1200px) {
+  .content-wrap {
+    padding: 20px;
   }
-    
+
+  .standings-section, .topscorers-section {
+    min-width: 500px;
+  }
+
+  #search-nav select,
+  #search-nav input,
+  #search-nav button {
+    max-width: 250px;
+  }
+
   #standings-table th, #standings-table td,
-  #topscorers-table th, #topscorers-table td
-   {
-    border: 1px solid #ddd;
-    padding: 6px;
-    text-align: left;
+  #topscorers-table th, #topscorers-table td {
+    padding: 8px;
+  }
+}
+
+/* Tabletit (768px - 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .header h1 {
+    font-size: 35px;
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  .content-wrap {
+    flex-direction: row;
+    padding: 15px;
+  }
+
+  .standings-section, .topscorers-section {
+    min-width: 400px;
+    padding: 15px;
+  }
+
+  #search-nav {
+    gap: 10px;
+    padding: 8px;
+  }
+
+  #search-nav select,
+  #search-nav input,
+  #search-nav button {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+    max-width: 180px;
+  }
+  #standings-table th:nth-child(2) {
+  min-width: 50px; /* Vähimmäisleveys joukkuesarakkeelle */
+  max-width: 50px; /* Maksimileveys, jotta ei vie liikaa tilaa */
+  }
+
+
+  #standings-table th, #standings-table td,
+  #topscorers-table th, #topscorers-table td {
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+
+  .teams-section {
+    margin: 30px;
+  }
+
+  footer {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+/* Pienet näytöt (alle 768px, mobiililaitteet) */
+@media (max-width: 767px) {
+  .header h1 {
+    font-size: 28px;
+    padding: 12px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .content-wrap {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .standings-section, .topscorers-section {
+    min-width: 100%;
+    padding: 10px;
+  }
+
+  #search-nav {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  #search-nav label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  #search-nav select,
+  #search-nav input,
+  #search-nav button {
+    font-size: 0.85rem;
+    padding: 0.4rem;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Taulukoiden responsiivisuus */
+  #standings-table, #topscorers-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
+    overflow-x: hidden; /* Poistetaan vaakavieritys */
+  }
+
+  #standings-table th, #standings-table td,
+  #topscorers-table th, #topscorers-table td {
+    font-size: 0.8rem;
+    padding: 4px;
+    word-wrap: break-word; /* Sallii tekstin rivinvaihdon */
+    max-width: 100px; /* Rajoittaa solujen leveyttä */
   }
 
   #topscorers-table th, #topscorers-table td {
-    padding-left: 20px;
-  }
-  
-  /*pariliset rivit tyyli*/
-  #standings-table tr:nth-child(even),
-  #topscorers-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    padding-left: 10px;
   }
 
-   /*parittomat rivit tyyli*/
-  #standings-table tr:nth-child(odd),
-  #topscorers-table tr:nth-child(odd) {
-    background-color: #ffffff;
+ 
+  .sort-arrow {
+    font-size: 16px;
   }
 
-
-  
-  #standings-table tr:hover,
-  #topscorers-table tr:hover {
-    background-color: #ddd;
-  }
-  
-  #standings-table th, #topscorers-table th {
-    background-color: #bdb004;
-    color: white;
-  }
-  
-  /* Joukkueet-osio */
   .teams-section {
-    margin: 50px;
-    text-align: center;
+    margin: 20px;
   }
-  
+
   #standings-info {
-    margin-top: 10px;
-    color: rgb(246, 246, 246);
-    font-style: italic;
+    font-size: 0.85rem;
   }
+
   footer {
-    background: linear-gradient(#3ea151, #333);
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+/* Erittäin pienet näytöt (alle 480px, pienet puhelimet) */
+@media (max-width: 479px) {
+  .header h1 {
+    font-size: 24px;
     padding: 10px;
-    color: white;
-    text-align: center;
-    font-size: 15px;
-    font-style: italic;
   }
-  /* Responsiivisuus */
-  @media (max-width: 768px) {
-    .content-wrap {
-      flex-direction: column;
-      align-items: center;
-    }
+
+  h2 {
+    font-size: 18px;
   }
-  
+
+  .standings-section, .topscorers-section {
+    padding: 8px;
+  }
+
+  #search-nav {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  #search-nav label {
+    font-size: 0.8rem;
+  }
+
+  #search-nav select,
+  #search-nav input,
+  #search-nav button {
+    font-size: 0.8rem;
+    padding: 0.3rem;
+  }
+
+  #standings-table th, #standings-table td,
+  #topscorers-table th, #topscorers-table td {
+    font-size: 0.75rem;
+    padding: 3px;
+    max-width: 80px;
+  }
+
+  #topscorers-table th, #topscorers-table td {
+    padding-left: 8px;
+  }
+
+  .sort-arrow {
+    font-size: 14px;
+  }
+
+  .teams-section {
+    margin: 15px;
+  }
+
+  footer {
+    font-size: 11px;
+    padding: 5px;
+  }
+}
