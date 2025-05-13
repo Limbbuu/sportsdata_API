@@ -1,10 +1,11 @@
 import { API_KEY } from './config.js';
+import { translations, currentLang } from './i18n.js';
 
 // Export asyncissä = voidaan käyttää myös muualla
 export async function fetchTopScorers(leagueId, season) {
   console.log('Fetching scorers for league:', leagueId, 'season:', season); // Debug
   const topscorersTable = document.getElementById('topscorers-table');
-  topscorersTable.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+  topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.loading}</td></tr>`;
 
   const topscorersCacheKey = `topscorers_${leagueId}_${season}`;
   const cachedTopscorers = localStorage.getItem(topscorersCacheKey);
@@ -26,7 +27,7 @@ export async function fetchTopScorers(leagueId, season) {
 
     if (!response.ok) {
       if (response.status === 429) {
-        topscorersTable.innerHTML = '<tr><td colspan="4">API-requests used. Try again later.</td></tr>';
+        topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.apiLimit}</td></tr>`;
         return;
       }
       throw new Error(`Error while fetching data: ${response.status}`);
@@ -36,7 +37,7 @@ export async function fetchTopScorers(leagueId, season) {
     console.log('Scorers API response:', data); // Debug
     if (!data.response || data.response.length === 0) {
       console.warn('No player data returned from API');
-      topscorersTable.innerHTML = '<tr><td colspan="4">No data available.</td></tr>';
+      topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.noData}</td></tr>`;
       return;
     }
 
@@ -45,25 +46,26 @@ export async function fetchTopScorers(leagueId, season) {
     displayTopScorers(topscorers);
   } catch (error) {
     console.error('VError while fetching data.', error);  
-    topscorersTable.innerHTML = '<tr><td colspan="4">Error while loading data.</td></tr>';
+    topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.error}</td></tr>`;
   }
 }
 
 function displayTopScorers(players) {
   const scorersTable = document.getElementById('topscorers-table');
+  const t = translations[currentLang].topScorersTable;
   scorersTable.innerHTML = `
     <tr>
-      <th>Player</th>
-      <th>Age</th>
-      <th>Team</th>
-      <th>Games</th>
-      <th>Goals</th>
-      <th>Assists</th>
-    </tr>   
+      <th>${t.player}</th>
+      <th>${t.age}</th>
+      <th>${t.team}</th>
+      <th>${t.games}</th>
+      <th>${t.goals}</th>
+      <th>${t.assists}</th>
+    </tr>  
   `;
 
   if (!players || players.length === 0) {
-    scorersTable.innerHTML += '<tr><td colspan="4">No data available.</td></tr>';
+    scorersTable.innerHTML += `<tr><td colspan="6">${translations[currentLang].messages.noData}</td></tr>`;
     return;
   }
 
