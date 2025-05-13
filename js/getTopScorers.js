@@ -56,7 +56,7 @@ function displayTopScorers(players) {
       <th>Player</th>
       <th>Age</th>
       <th>Team</th>
-      <th>Matches</th>
+      <th>Games</th>
       <th>Goals</th>
       <th>Assists</th>
     </tr>   
