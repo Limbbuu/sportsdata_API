@@ -1,5 +1,6 @@
 import { API_KEY } from './config.js';
 import { fetchTopScorers } from './getTopScorers.js';
+import { translations, currentLang  } from '././i18n.js';
 
 const leagues = [
   { id: 39, name: 'English Premier League 🇬🇧', continent: 'Europe' },
@@ -18,7 +19,7 @@ async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
   const season = document.getElementById('season').value;
   const tableElement = document.getElementById('standings-table');
-  tableElement.innerHTML = '<tr><td colspan="9">Loading...</td></tr>'; //latausindikaattori dataa hakiessa
+  tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.loading}tr</td></tr>`; //latausindikaattori dataa hakiessa
 
     //tallennetaan hakuja lokalstorageen, jotta vähennetään API-kutsujan määrää
   const standingsCacheKey = `standings_${leagueId}_${season}`;
@@ -42,7 +43,7 @@ async function fetchStandings() {
     if (!response.ok) {
       if (response.status === 429) {
         //API-rajan ylityksen ilmoitus
-        tableElement.innerHTML = '<tr><td colspan="9">API-requests used. Try again later.</td></tr>';
+        tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.apiLimit}</td></tr>`;
         return;
       }
       throw new Error(`Error on response: ${response.status}`);
@@ -57,24 +58,25 @@ async function fetchStandings() {
 
   } catch (error) {
     console.error('Error while fetching standings:', error);
-    tableElement.innerHTML = '<tr><td colspan="9">Error while loading standings</td></tr>';
+    tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.error}</td></tr>`;
   }
 }
 
 function displayStandings(teams, sortKey = 'points', sortDirection = false) {
   const tableElement = document.getElementById('standings-table');
+  const t = translations[currentLang].standingsTable;
   tableElement.innerHTML = `
     <tr>
       <th data-sort="rank"></th>
-      <th data-sort="team">Team <span class="sort-arrow"></span></th>
-      <th data-sort="played">GP<span class="sort-arrow"></span></th>
-      <th data-sort="win">W<span class="sort-arrow"></span></th>
-      <th data-sort="draw">D<span class="sort-arrow"></span></th>
-      <th data-sort="lose">L<span class="sort-arrow"></span></th>
-      <th data-sort="goalsFor">GF<span class="sort-arrow"></span></th>
-      <th data-sort="goalsAgainst">GA<span class="sort-arrow"></span></th>
-      <th data-sort="goalDiff">+/-<span class="sort-arrow"></span></th>
-      <th data-sort="points">Pts<span class="sort-arrow"></span></th>
+      <th data-sort="team">${t.team} <span class="sort-arrow"></span></th>
+      <th data-sort="played">${t.played}<span class="sort-arrow"></span></th>
+      <th data-sort="win">${t.wins}<span class="sort-arrow"></span></th>
+      <th data-sort="draw">${t.draws}<span class="sort-arrow"></span></th>
+      <th data-sort="lose">${t.losses}<span class="sort-arrow"></span></th>
+      <th data-sort="goalsFor">${t.goalsFor}<span class="sort-arrow"></span></th>
+      <th data-sort="goalsAgainst">${t.goalsAgainst}<span class="sort-arrow"></span></th>
+      <th data-sort="goalDiff">${t.goalDiff}<span class="sort-arrow"></span></th>
+      <th data-sort="points">${t.points}<span class="sort-arrow"></span></th>
     </tr>
   `;
 
