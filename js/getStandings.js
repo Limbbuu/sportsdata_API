@@ -1,6 +1,6 @@
 import { API_KEY } from './config.js';
 import { fetchTopScorers } from './getTopScorers.js';
-import { translations, currentLang  } from '././i18n.js';
+import { translations, currentLang } from './i18n.js';
 
 const leagues = [
   { id: 39, name: 'English Premier League 🇬🇧', continent: 'Europe' },
@@ -14,6 +14,32 @@ const leagues = [
   { id: 253, name: 'Major League Soccer 🇺🇸', continent: 'North-America' },
   { id: 386, name: 'Premiere Division 🇨🇮', continent: 'Africa' },
 ];
+
+// Funktio liigavalikon täyttämiseen
+function populateLeagueSelect() {
+  const leagueSelect = document.getElementById('league');
+  leagueSelect.innerHTML = ''; // Tyhjennä valikko ennen uudelleentäyttöä
+
+  const continents = [...new Set(leagues.map(league => league.continent))];
+
+  continents.forEach(continent => {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = translations[currentLang].continents[continent] || continent;
+
+    const continentLeagues = leagues.filter(league => league.continent === continent);
+    continentLeagues.forEach(league => {
+      const option = document.createElement('option');
+      option.value = league.id;
+      option.textContent = league.name;
+      optgroup.appendChild(option);
+    });
+
+    leagueSelect.appendChild(optgroup);
+  });
+
+  // Aseta oletusarvo
+  leagueSelect.value = '39';
+}
 
 async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
@@ -105,7 +131,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
         valueB = b.team.name.toLowerCase();
         return currentSortDirection ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
       case 'played': //lasketaa otteluiden määrä yhteenlaskemalla W/D/L
-      valueA = a.all.win + a.all.draw + a.all.lose;
+        valueA = a.all.win + a.all.draw + a.all.lose;
         valueB = b.all.win + b.all.draw + b.all.lose;
         return currentSortDirection ? valueA - valueB : valueB - valueA;
       case 'win':
@@ -181,26 +207,11 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
 
 document.getElementById('standings-btn').addEventListener('click', fetchStandings);
 
+// Alusta liigavalikko sivun latautuessa
 window.addEventListener('DOMContentLoaded', () => {
-  const leagueSelect = document.getElementById('league');
-  
-  const continents = [...new Set(leagues.map(league => league.continent))];
-  
-  continents.forEach(continent => {
-    const optgroup = document.createElement('optgroup');
-    optgroup.label = continent;
-    
-    const continentLeagues = leagues.filter(league => league.continent === continent);
-    continentLeagues.forEach(league => {
-      const option = document.createElement('option');
-      option.value = league.id;
-      option.textContent = league.name;
-      optgroup.appendChild(option);
-    });
-    
-    leagueSelect.appendChild(optgroup);
-  });
-
-  document.getElementById('league').value = '39';
+  populateLeagueSelect();
   fetchStandings();
 });
+
+// Vie funktio, jotta i18n.js voi käyttää sitä
+export { populateLeagueSelect };
