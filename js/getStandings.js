@@ -57,7 +57,6 @@ async function fetchStandings() {
     await fetchTopScorers(leagueId, season);
 
   } catch (error) {
-    console.error('Error while fetching standings:', error);
     tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.error}</td></tr>`;
   }
 }
