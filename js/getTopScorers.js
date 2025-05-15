@@ -3,7 +3,6 @@ import { translations, currentLang } from './i18n.js';
 
 // Export asyncissä = voidaan käyttää myös muualla
 export async function fetchTopScorers(leagueId, season) {
-  console.log('Fetching scorers for league:', leagueId, 'season:', season); // Debug
   const topscorersTable = document.getElementById('topscorers-table');
   topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.loading}</td></tr>`;
 
@@ -11,7 +10,6 @@ export async function fetchTopScorers(leagueId, season) {
   const cachedTopscorers = localStorage.getItem(topscorersCacheKey);
 
   if (cachedTopscorers) {
-    console.log('Using cached scorers data'); // Debug
     const topscorers = JSON.parse(cachedTopscorers);
     displayTopScorers(topscorers);
     return;
@@ -34,9 +32,7 @@ export async function fetchTopScorers(leagueId, season) {
     }
 
     const data = await response.json();
-    console.log('Scorers API response:', data); // Debug
     if (!data.response || data.response.length === 0) {
-      console.warn('No player data returned from API');
       topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.noData}</td></tr>`;
       return;
     }
@@ -44,8 +40,7 @@ export async function fetchTopScorers(leagueId, season) {
     const topscorers = data.response;
     localStorage.setItem(topscorersCacheKey, JSON.stringify(topscorers));
     displayTopScorers(topscorers);
-  } catch (error) {
-    console.error('VError while fetching data.', error);  
+  } catch (error) {  
     topscorersTable.innerHTML = `<tr><td colspan="6">${translations[currentLang].messages.error}</td></tr>`;
   }
 }
