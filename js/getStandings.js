@@ -104,7 +104,7 @@ function displayStandings(teams, sortKey = 'points', sortDirection = false) {
         valueA = a.team.name.toLowerCase();
         valueB = b.team.name.toLowerCase();
         return currentSortDirection ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
-      case 'playedGames': //lasketaa otteluiden määrä yhteenlaskemalla W/D/L
+      case 'played': //lasketaa otteluiden määrä yhteenlaskemalla W/D/L
       valueA = a.all.win + a.all.draw + a.all.lose;
         valueB = b.all.win + b.all.draw + b.all.lose;
         return currentSortDirection ? valueA - valueB : valueB - valueA;
