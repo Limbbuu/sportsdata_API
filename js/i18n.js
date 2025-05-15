@@ -1,6 +1,7 @@
 import { translations } from './language.js';
+import { populateLeagueSelect } from './getStandings.js';
 
-const defaultLang = 'fi'; // Oletuskieli: suomi
+const defaultLang = 'en'; // Oletuskieli: englanti
 
 // Hae tallennettu kieli tai käytä oletuskieltä
 let currentLang = localStorage.getItem('language') || defaultLang;
@@ -26,6 +27,9 @@ function updateTranslations() {
   // Päivitä painikkeen teksti (sisältää ikonin, joten säilytetään ikoni)
   const searchButton = document.getElementById('standings-btn');
   searchButton.innerHTML = `${translations[currentLang].searchButton} <i class="bi bi-search"></i>`;
+
+  // Päivitä liigavalikko (maanosien nimet)
+  populateLeagueSelect();
 }
 
 // Vaihda kieltä ja tallenna valinta
