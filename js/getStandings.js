@@ -19,7 +19,7 @@ async function fetchStandings() {
   const leagueId = document.getElementById('league').value;
   const season = document.getElementById('season').value;
   const tableElement = document.getElementById('standings-table');
-  tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.loading}tr</td></tr>`; //latausindikaattori dataa hakiessa
+  tableElement.innerHTML = `<tr><td colspan="9">${translations[currentLang].messages.loading}</td></tr>`; //latausindikaattori dataa hakiessa
 
     //tallennetaan hakuja lokalstorageen, jotta vähennetään API-kutsujan määrää
   const standingsCacheKey = `standings_${leagueId}_${season}`;
